@@ -141,9 +141,21 @@ def create_hairworks_file(context, filepath):
    if (i + 1) % 32 == 0 and i != 0:
     outfile.write ('\n      ');
   for face in mesh.polygons:
-   indices.append (getClosest(mesh.vertices[face.vertices[0]].co, meshCoords));
-   indices.append (getClosest(mesh.vertices[face.vertices[1]].co, meshCoords));
-   indices.append (getClosest(mesh.vertices[face.vertices[2]].co, meshCoords));
+   index = findElement(mesh.vertices[face.vertices[0]].co, meshCoords);
+   if index >= 0 :
+    indices.append(index);
+   else:
+    indices.append (getClosest(mesh.vertices[face.vertices[0]].co, meshCoords));
+   index = findElement(mesh.vertices[face.vertices[1]].co, meshCoords);
+   if index >= 0 :
+    indices.append(index);
+   else:
+    indices.append (getClosest(mesh.vertices[face.vertices[1]].co, meshCoords));
+   index = findElement(mesh.vertices[face.vertices[2]].co, meshCoords);
+   if index >= 0 :
+    indices.append(index);
+   else:
+    indices.append (getClosest(mesh.vertices[face.vertices[2]].co, meshCoords));
   outfile.write('\n    </array>\n');
   outfile.write('    <value name="numFaces" type="U32">' + str(numFaces) + '</value>\n');
   outfile.write('    <array name="faceIndices" size="' + str(len(indices)) + '" type="U32">\n      ');
