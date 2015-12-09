@@ -166,7 +166,7 @@ def create_hairworks_file(context, filepath):
   outfile.write('\n    </array>\n');
   outfile.write('    <array name="faceUVs" size="' + str(len(UVs)) + '" type="Vec2">\n      ');
   for i in range (0, len(UVs)):
-   outstr = str(round (UVs[i].x, 9)) + ' ' + str(round (UVs[i].y, 9));
+   outstr = str(round (UVs[i].x, 9)) + ' ' + str(round (1 - UVs[i].y, 9));
    if (i + 1) != len(UVs):
     outstr += ', ';
    else :
@@ -251,11 +251,16 @@ def create_hairworks_file(context, filepath):
    for index, pose in enumerate (poseBones):
     if bone.name == pose.name:
      for j in range (0, 4):
-      par_mat_inv = armature.bones[bone.name].parent.matrix_local.inverted_safe() if armature.bones[bone.name].parent else Matrix();
-      matrix = par_mat_inv * armature.bones[bone.name].matrix_local;
-      if armature.bones[bone.name].parent is not None :
-       matrix = object.matrix_parent_inverse.inverted() * armature.bones[bone.name].parent.matrix_local * matrix;
+      rest_inv = pose.bone.matrix_local.copy().inverted();
+      if pose.parent:
+        par_inv = pose.parent.matrix.copy().inverted();
+        par_rest = pose.parent.bone.matrix_local.copy();
+      else:
+        par_inv = Matrix();
+        par_rest = Matrix();
+      matrix = rest_inv * (par_rest * (par_inv * pose.matrix));
       matrix.transpose();
+      matrix.invert();
       outfile.write(str(round(matrix[j].x, 9)) + ' ' + str(round (matrix[j].y, 9)) + ' ' + str(round (matrix[j].z, 9)) + ' ' + str(round (matrix[j].w, 9)) + ' ');
       if j == 3:
        if index != len(poseBones) - 1:
