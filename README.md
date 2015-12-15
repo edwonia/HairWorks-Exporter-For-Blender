@@ -12,7 +12,7 @@ HOW TO INSTALL THE ADDON
 7. Tick the box to enable the addon.
 8. Under File->Export "HairWorks (.apx)" should now be visible.
 
-REQUIREMENTS TO EXPORT
+REQUIREMENTS TO EXPORT HAIRWORKS
 
 1. Have a mesh selected.
 2. Triangulate faces.
@@ -20,6 +20,16 @@ REQUIREMENTS TO EXPORT
 4. Skin to armature.
 5. Hair particle system should be the first particle system.
 
+REQUIREMENTS TO EXPORT FBX GROWTH MESH
+
+- File > Export > FBX
+- FBX SETTINGS
+	- shift select Armature and Mesh to export armature and mesh (they should both be blue)
+	- uncheck "Apply Unit" if that option is there (newer versions of Blender don't have)
+	- set "Smoothing" to "Face"
+	- check "Only Deform Bones"
+	- check "Tangent Space"
+	NOTE: if messed up, try apply transform
 
 LIMITATIONS AND PROBLEMS
 
